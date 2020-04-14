@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">User</th>
+        <th scope="col">Text</th>
+        <th scope="col">DESCRIPTION</th>
+        <th scope="col">UPdate</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in team %}
+        <tr>
+            <th scope="row"><a href="{% url 'detail' i.id %}">{{ i.user }}</a></th>
+            <td>{{ i.team_name }}</td>
+            <td>{{ i.team_picture.url }}</td>
+            {#            <td><a href="{% url 'update' i.id %}">Update</a></td>#}
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+</body>
+</html>

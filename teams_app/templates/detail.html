@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">User</th>
+        <th scope="col">Text</th>
+        <th scope="col">DESCRIPTION</th>
+        <th scope="col">UPdate</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">{{ team.user }}</th>
+        <td>{{ team.team_name }}</td>
+        <td>{{ team.team_picture.url }}</td>
+
+        {#            <td><a href="{% url 'update' i.id %}">Update</a></td>#}
+    </tr>
+
+
+    </tbody>
+    {% if team.user == request.user %}
+        <form method="post">
+        {% csrf_token %}
+            <input type="text" name="test">
+            <input type="checkbox" name="desinger">DESINGER
+            <br>
+            <input type="checkbox" name="fuad">FUAD
+            <br>
+            <input type="checkbox" name="cavidan">CAVIDAN
+        <button type="submit">send</button>
+        </form>
+
+    {% endif %}
+</table>
+
+</body>
+</html>

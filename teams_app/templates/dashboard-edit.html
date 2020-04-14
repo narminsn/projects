@@ -1,0 +1,258 @@
+<!-- edit project modal-->
+
+{% load widget_tweaks %}
+{% load static %}
+
+<style>
+    #asigment-create2 {
+        background: #F1556B !important;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        border: 1px solid #F1556B !important;
+        font-size: 12px;
+        line-height: 13px;
+        text-align: center;
+        padding: 5px 8px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+
+
+<div class="create-project-important-all">
+    <div class="important-project">
+        <div class="container">
+            <div class="row ">
+                <form enctype="multipart/form-data" method="post" action="{% url 'dash-edit' teammember.id %}" id="myForm">
+
+                    <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="edit-curent-div">
+
+                            {% if picture %}
+                                <button class="edit-button-img remove-img">x</button>
+                                <img id="team-picture" src="{{ picture.url }}" alt=""
+                                     class="edit-create-img-cureent">
+                                <input style="display: none" name="team-picture" id="form-picture" type="file">
+                            {% else %}
+                                {% render_field form.team_picture class='create-img-cureen' %}
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                        <div class="">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom03" class="label-name">Project
+                                        name</label>
+                                    {% render_field form.team_name class='form-control create-project-input' placeholder='Project' %}
+
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-name" for="validationCustom04">Start
+                                        date</label>
+                                    {% render_field form.start_time class='form-control create-project-input' placeholder='Project' %}
+
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-name" for="validationCustom05">Completion
+                                        date</label>
+                                    {% render_field form.end_time class='form-control create-project-input' placeholder='Project' %}
+
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="label-name" for="validationCustom05">BRIEF</label>
+                                    {% render_field form.description class='form-control create-project-input' placeholder='Project' %}
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="create-project-title mb-2">
+                                        BRIEF FILES
+                                    </div>
+                                    <p class="create-project-content">
+                                        For a more detailed explanation of the project, you can
+                                        attach files
+                                        that will help your colleagues work more productively. You
+                                        can download
+                                        any document format except html-code.
+                                    </p>
+                                    <div class="edit-files">
+                                        {% for field in files %}
+                                            <div class="edit-file-begin">
+                                                <div class="edit-curent-div-file">
+                                                    <button class="edit-button-img remove-file">x</button>
+                                                    <img src="./style/mystyle/img/Rectangle 33.png"
+                                                         alt="" class="edit-create-img-cureent">
+                                                </div>
+                                                <h6 class="text-center edit-file-name">PDF</h6>
+                                            </div>
+
+                                        {% endfor %}
+
+
+                                    </div>
+                                    <div class="edit-uppload">
+                                        <input type="file" id="brief-file" class="create-project-dhash-button"
+                                               name="thumbnail" value="" multiple>
+                                        <img src="./style/mystyle/img/Group 152.png" alt=""
+                                             class="create-img-cureent">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3 ">
+                                    <label for="validationCustom03" class="label-name">Assigness
+                                    </label>
+                                    <div class="vv assigness">
+                                        {% if members %}
+                                            {% for field in members %}
+                                                <input type="text"
+                                                       class="form-control create-project-input pt-2 asigment-create"
+                                                       placeholder="Start typing an employee's last name or nickname"
+                                                       id="validationCustom03" value="{{ field.member.email }}"
+                                                       name="assinger">
+
+                                            {% endfor %}
+                                        {% else %}
+                                            <input type="text"
+                                                   class="form-control create-project-input pt-2 asigment-create"
+                                                   placeholder="Start typing an employee's last name or nickname"
+                                                   id="validationCustom03" name="assinger">
+
+                                        {% endif %}
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3 ">
+                                    <label for="validationCustom03" class="label-name">Position
+                                    </label>
+                                    <div class="vv position">
+                                        {% if members %}
+                                            {% for field in members %}
+                                                <input type="text"
+                                                       class="form-control create-project-input pt-2 asigment-create"
+                                                       placeholder="Start typing an employee's last name or nickname"
+                                                       id="validationCustom03" value="{{ field.member_status }}"
+                                                       name="position">
+
+                                            {% endfor %}
+                                        {% else %}
+                                            <input type="text"
+                                                   class="form-control create-project-input pt-2 asigment-create"
+                                                   placeholder="Start typing an employee's last name or nickname"
+                                                   id="validationCustom03" name="position">
+
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="validationCustom03" class="label-name">Manager
+                                    </label>
+                                    <input type="text" class="form-control create-project-input"
+                                           placeholder="Start typing an employee's last name or nickname"
+                                           id="validationCustom03" value="{{ leader.member.email }}" name="manager">
+                                    <button id="asigment-create2" type="button" class="">+
+                                    </button>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="create-project-title mb-2">
+                                        POSTING ON
+                                    </div>
+                                    <div class="project-create-sosial">
+                                        <button class="create-p-sosial face-create ">Facebook</button>
+                                        <button class="create-p-sosial instag-create">Instagram</button>
+                                        <button class="create-p-sosial you-create">YouTube</button>
+                                        <button class="create-p-sosial vkon-create">Vkontakte</button>
+                                        <button class="create-p-sosial twither-create">Twitter</button>
+                                        <button class="create-p-sosial linki-create">LinkedIn</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3 mt-3">
+
+                                    <label for="customRange1" class="range-label">Total publications
+                                    </label>
+                                    <div class="text-right rang-nu ran-1">
+                                        0
+                                    </div>
+                                    <input type="range" min="0" max="110" class="custom-range custom-1"
+                                           id="customRange1">
+                                </div>
+                                <div class="col-md-6 mb-3 mt-3">
+                                    <label for="customRange1" class="range-label">Publication A DAY
+                                    </label>
+                                    <div class="text-right rang-nu ran-2">
+                                        0
+                                    </div>
+                                    <input type="range" min="0" max="110" class="custom-range custum-2"
+                                           id="customRange1">
+                                </div>
+                                <div class="col-md-12 mb-2">
+                                    <div class="create-project-title mb-2">
+                                        PUBLICATION tIME
+                                    </div>
+                                    <div>
+                                        <button class="edit-time">10:00</button>
+                                        <button class="edit-time">16:00</button>
+                                        <button class="edit-time">17:00</button>
+                                        <button class="edit-time">18:00</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class=" btn delete-project-button" data-dismiss="modal">Delete project</button>
+                        <button type="submit" id="sub" class="btn start-project-button">Start project</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('create-img-cureen').hide()
+    $('.remove-img').click(function () {
+        $('#team-picture').hide()
+        $(this).hide()
+        $('#form-picture').show()
+    })
+    $('#brief-file').change(function () {
+        var length_file = document.getElementById('brief-file').files.length
+        console.log(length_file)
+        for (var i = 0; i < length_file; i++) {
+            $('.edit-files').append(' <div class="edit-file-begin">\n' +
+                '                                            <div class="edit-curent-div-file">\n' +
+                '                                                <button class="edit-button-img">x</button>\n' +
+                '                                                <img src="./style/mystyle/img/Rectangle 33.png"\n' +
+                '                                                     alt="" class="edit-create-img-cureent">\n' +
+                '                                            </div>\n' +
+                '                                            <h6 class="text-center edit-file-name">PDF</h6>\n' +
+                '                                        </div>')
+        }
+    });
+
+    $('.remove-file').click(function () {
+        $(this).parent().parent().hide()
+
+    })
+
+    $("#asigment-create2").click(function () {
+        $(".assigness").append("<input type='text' class='form-control create-project-input pt-2 asigment-create' placeholder='Start typing an employee s last name or nickname' name='assinger'></input>");
+        $(".position").append("<input type='text' class='form-control create-project-input pt-2 asigment-create' placeholder='Start typing an employee s last name or nickname' name='position'></input>");
+    });
+
+    $('#sub').click(function () {
+        console.log('submit')
+    })
+
+</script>
+
+

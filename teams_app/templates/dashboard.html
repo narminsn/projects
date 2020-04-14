@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aidatoolkit</title>
+    <link rel="stylesheet" href="{% static './style/font_awesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static './style/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static './style/mystyle/css/style.css' %}">
+    <link rel="stylesheet" href="{% static './style/animate/animate.min.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+<!-- left menu -->
+<div class="left-menu">
+    <a href="" class="dashboard-div">
+        <img src="{% static './style/mystyle/img/dashboard-logo.png' %}" alt="" class="dashboard-img">
+    </a>
+    <div class="icon-left">
+        <a href="" class="icon-a icon-active" tabindex="0" role="button" data-toggle="popover" data-trigger="focus"
+           title="Dismissible popover"><img class="menu-icon-left" src="{% static './style/mystyle/img/layout.svg' %}"
+                                            alt=""></a>
+        <a href="" class="icon-a " tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover"
+           data-trigger="focus" title="Dismissible popover"><img class="menu-icon-left"
+                                                                 src="{% static './style/mystyle/img/calendar (1).svg' %}"
+                                                                 alt=""></a>
+        <a href="" class="icon-a" tabindex="0" role="button" data-toggle="popover" data-trigger="focus"
+           title="Dismissible popover"><img class="menu-icon-left"
+                                            src="{% static './style/mystyle/img/image (1).svg' %}"
+                                            alt=""></a>
+        <a href="" class="icon-a" tabindex="0" role="button" data-toggle="popover" data-trigger="focus"
+           title="Dismissible popover"><img class="menu-icon-left" src="{% static './style/mystyle/img/link (1).svg' %}"
+                                            alt=""></a>
+        <a href="" class="icon-a" tabindex="0" role="button" data-toggle="popover" data-trigger="focus"
+           title="Dismissible popover"><img class="menu-icon-left"
+                                            src="{% static './style/mystyle/img/users (1).svg' %}"
+                                            alt=""></a>
+    </div>
+    <div class="setting-div">
+        <a href="" class="icon-a" tabindex="0" role="button" data-toggle="popover" data-trigger="focus"
+           title="Setting"><img class="menu-icon-left" src="{% static './style/mystyle/img/settings.svg' %}" alt=""></a>
+    </div>
+</div>
+
+<!-- dashbord card -->
+
+<div class="dashboard-all  ">
+
+    <!-- menu -->
+    <div class="sticky-top stick-top">
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="menu-all">
+                        <div class="project">Projects</div>
+                        <div class="a-links ">
+                            <a class=" link-a active" href="{% url 'dashboard' %}">Active All
+                                <div class="link-number">{{ countall }}</div>
+                            </a>
+                            <a class=" link-a" href="{% url 'my-active' %}">Active My
+                                <div class="link-number">{{ countmy }}</div>
+                            </a>
+                            <a class=" link-a link-red" href="{% url 'required' %}">Requires attention
+                                <div class="link-number">{{ countrequired }}</div>
+                            </a>
+                            <a class=" link-a" href="{% url 'finish' %}">Finished</a>
+                            {#                            <a class=" link-a" href="#">On Hold</a>#}
+                            {#                            <a class=" link-a" href="#"> Archive</a>#}
+                        </div>
+                        <div class="users">
+                            <div class="user-name">David Morgan</div>
+                            <div class="user-img-div ">
+                                <img src="{% static './style/mystyle/img/Rectangle 10.png' %}" alt=""
+                                     class="profile-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="menu-section-2">
+                        <div class="search-div">
+                            {% if request.path == '/dashboard/my/project/' %}
+                                <form action="{% url 'my-active' %}" method="get">
+
+                            {% elif request.path == '/dashboard/' %}
+                                <form action="{% url 'dashboard' %}" method="get">
+
+                            {% elif request.path == '/dashboard/finished/' %}
+                                <form action="{% url 'finish' %}" method="get">
+
+                            {% elif request.path == '/dashboard/required/' %}
+                                <form action="{% url 'required' %}" method="get">
+
+                            {% endif %}
+                            <div class="input-group input-dashboard ">
+                                <div class="input-group-prepend">
+                                    <img class="input-group-text "
+                                         src="{% static './style/mystyle/img/Group 74.png' %}"
+                                         alt="">
+                                </div>
+                                <input name="search" type="text" class="form-control"
+                                       placeholder="Search by project name"
+                                       aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                            </form>
+                        </div>
+                        <div class="sort-div">
+                            <div class="sort-select pr-3">
+                                <button class="sort-button"><span> Sort tasks by</span>time expire <i
+                                        class="fas fa-angle-down"></i></button>
+                            </div>
+                            <div class="humburger-icon pr-2">
+                                <button><img src="{% static './style/mystyle/img/Group 93.svg' %}"
+                                             alt=""></button>
+                            </div>
+                            <div class="prodict-icon ">
+                                <button><img src="{% static './style/mystyle/img/Group 92.svg' %}"
+                                             alt=""></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- project-team -->
+    <div class="container-fluid">
+        <div class="row">
+            {% for field in team %}
+                <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 ">
+                    <div class="team-cart">
+                        <div class="media">
+                            {% if field.team.user == request.user %}
+                                <div data-url="{% url 'dash-edit' field.id %}" class="user-project-edit"
+                                     data-dismiss="modal" aria-hidden="true" data-toggle="modal"
+                                     data-target="#exampleModalLongEdit"><i class="fas fa-edit"></i></div>
+
+                            {% else %}
+                                <div data-url="{% url 'dash-edit' field.id %}" class="user-project-edit"
+                                     data-dismiss="modal" aria-hidden="true"><i class="fas fa-edit"></i></div>
+                            {% endif %}
+                            {% if field.team.team_picture %}
+                                <img src="{{ field.team.team_picture.url }}"
+                                     class="mr-3 team-img"
+                                     alt="...">
+                            {% else %}
+                                <img src="{% static 'style/mystyle/img/649e1c738c189557e58cf78e1ec21cfe 1.png' %}"
+                                     class="mr-3 team-img"
+                                     alt="...">
+                            {% endif %}
+                            {#                            <img src="{{ field.team.team_picture.url }}"#}
+                            {#                                 class="mr-3 team-img"#}
+                            {#                                 alt="...">#}
+                            <div class="media-body">
+                                <h5 class="mt-0 team-name" data-dismiss="modal" aria-hidden="true" data-toggle="modal"
+                                    data-target="#exampleModalLongUser">{{ field.team.team_name }}</h5>
+                                <h6 class="team-time">
+                                    <time datetime="2016-02-04 22:30">{{ field.team.start_time }}</time>
+
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="team-cart-line"></div>
+                        <div style="padding: 5px 15px; padding-bottom: 18px!important;" class="alt">
+                            <h3 class="posting-on">
+                                Posting on:
+                            </h3>
+                            <div class="sosial-buttons">
+                                <button class="sosial-buttun facebook" type="button">Facebook</button>
+                                <button class="sosial-buttun instagram" type="button">Instagram</button>
+                                <button class="sosial-buttun youtobe" type="button">YouTube</button>
+                                <button class="sosial-buttun vkontact" type="button">Vkontakte</button>
+                                <button class="sosial-buttun twither" type="button">Twitter</button>
+                                <button class="sosial-buttun linkedin" type="button">LinkedIn</button>
+                            </div>
+                            <h3 class="posting-on">
+                                Project members:
+                            </h3>
+                            <div class="team-users" data-dismiss="modal" aria-hidden="true" data-toggle="modal"
+                                 data-target="#exampleModalLongUser">
+                                {% for i in test %}
+                                    {% if i.team.id == field.team.id %}
+                                        <img src="{{ i.member.profile_photo.url }}" alt=""
+                                             class="user-img">
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- modal button -->
+    <div class="button-open" data-dismiss="modal" aria-hidden="true" data-toggle="modal"
+         data-target="#exampleModalLong">
+        <div class="btn-menu click-open-close btn-menu_active ">
+            <span></span>
+        </div>
+    </div>
+
+
+    <!-- create project modal -->
+    <div class="modal fade " id="exampleModalLong" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog create-project animated fadeInLeft" role="document">
+            <div class="modal-content modal-oz">
+                <div class="modal-left-logog">
+                    <div class="create-project-card-img-div">
+                        <img class="create-project-card-img" src="./style/mystyle/img/dashboard-logo.png" alt="">
+                    </div>
+                </div>
+                <!-- <div class="">
+                    <button type="button" class="close create-projeect-close-button" data-dismiss="modal">
+                        <span aria-hidden="true" class="text-white">&times;</span>
+                    </button>
+                </div> -->
+                <!-- create-project modal -->
+                <div class="modal-body create-project-body">
+                    <div class="create-project-important-all">
+                        <div class="important-project">
+                            <div class="container">
+                                <div class="row ">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                            <div class="curent-div">
+                                                {#                                            <input type="file" name="team-picture">#}
+                                                {% render_field form.team_picture class='create-img-cureen' %}
+                                            </div>
+                                        </div>
+                                        <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                            <div class="">
+
+                                                {% csrf_token %}
+                                                <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="validationCustom03" class="label-name">Project
+                                                            name</label>
+                                                        {% render_field form.team_name class='form-control create-project-input' placeholder='Project' %}
+
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label class="label-name" for="validationCustom04">Start
+                                                            date</label>
+
+
+                                                        {% render_field form.start_time class='form-control create-project-input' placeholder='Project' %}
+
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label class="label-name" for="validationCustom05">Completion
+                                                            date</label>
+
+                                                        {% render_field form.end_time class='form-control create-project-input' placeholder='Project' %}
+
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <label class="label-name" for="validationCustom05">BRIEF</label>
+                                                        {% render_field form.description class='form-control create-project-input' placeholder='Project' %}
+
+                                                    </div>
+                                                    <div class="col-md-12 mb-2">
+                                                        <div class="create-project-title mb-2">
+                                                            BRIEF FILES
+                                                        </div>
+                                                        <p class="create-project-content">
+                                                            For a more detailed explanation of the project, you can
+                                                            attach files
+                                                            that will help your colleagues work more productively. You
+                                                            can download
+                                                            any document format except html-code.
+                                                        </p>
+
+
+                                                        <input type="file" class="create-project-dhash-button"
+                                                               name="thumbnail" value="" multiple>
+                                                        <!-- <button class="create-project-dhash-button"> click or drag files
+                                                            to attach
+                                                        </button> -->
+
+                                                    </div>
+                                                    <div class="col-md-4 mb-3 ">
+                                                        <label for="validationCustom03" class="label-name">Assigness
+                                                        </label>
+                                                        <div class="vv assigness">
+                                                            <input type="text"
+                                                                   class="form-control create-project-input pt-2 asigment-create"
+                                                                   placeholder="Start typing an employee's last name or nickname"
+                                                                   id="validationCustom03" name="assinger">
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3 ">
+                                                        <label for="validationCustom03" class="label-name">Position
+                                                        </label>
+                                                        <div class="vv position">
+                                                            <input type="text"
+                                                                   class="form-control create-project-input pt-2 asigment-create"
+                                                                   placeholder="Start typing an employee's last name or nickname"
+                                                                   id="validationCustom03" name="position">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <label for="validationCustom03" class="label-name">Manager
+                                                        </label>
+                                                        <input type="text" class="form-control create-project-input"
+                                                               placeholder="Start typing an employee's last name or nickname"
+                                                               id="validationCustom03" name="manager">
+                                                        <button id="asigment-create" type="button" class="">+
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="create-project-title mb-2">
+                                                            POSTING ON
+                                                        </div>
+                                                        <div class="project-create-sosial">
+                                                            <button class="create-p-sosial face-create" type="button">
+                                                                Facebook
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3 mt-3">
+
+                                                        <label for="customRange1" class="range-label">Total publications
+                                                        </label>
+                                                        <div class="text-right rang-nu ran-1">
+                                                            0
+                                                        </div>
+                                                        <input type="range" min="0" max="110"
+                                                               class="custom-range custom-1"
+                                                               id="customRange1">
+                                                    </div>
+                                                    <div class="col-md-6 mb-3 mt-3">
+                                                        <label for="customRange1" class="range-label">Publication A DAY
+                                                        </label>
+                                                        <div class="text-right rang-nu ran-2">
+                                                            0
+                                                        </div>
+                                                        <input type="range" min="0" max="110"
+                                                               class="custom-range custum-2"
+                                                               id="customRange1">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button data-dismiss="modal" class=" btn delete-project-button">
+                                                        Delete project
+                                                    </button>
+                                                    <button type="submit" class="btn start-project-button">Start
+                                                        project
+                                                    </button>
+                                                </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</div>
+
+<!-- edit project modal -->
+
+<div class="modal fade" id="exampleModalLongEdit" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog create-project animated fadeInLeft" role="document">
+        <div class="modal-content modal-oz">
+            <div class="modal-left-logog">
+                <div class="create-project-card-img-div">
+                    <img class="create-project-card-img" src="./style/mystyle/img/dashboard-logo.png" alt="">
+                </div>
+            </div>
+            <div class="">
+                <button type="button" class="close create-projeect-close-button" data-dismiss="modal">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+                <button type="button" class="close edit-projeect-close-button mr-2" data-dismiss="modal">
+                    <span aria-hidden="true" class="text-white"><i class="fas fa-check"></i></span>
+                </button>
+            </div>
+            <!-- edit-prject -->
+            <div id="edit-body" class="modal-body edit-project-body">
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- user coment -->
+<div class="modal fade" id="exampleModalLongUser" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog create-project animated fadeInLeft" role="document">
+        <div class="modal-content modal-oz">
+            <div class="modal-left-logog">
+                <div class="create-project-card-img-div">
+                    <img class="create-project-card-img" src="./style/mystyle/img/dashboard-logo.png" alt="">
+                </div>
+            </div>
+            <div class="">
+                <button type="button" class="close create-projeect-close-button" data-dismiss="modal">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+                <button type="button" class="close commit-cange-button mr-2">
+                        <span aria-hidden="true" class="text-white"><img class=""
+                                                                         src="./style/mystyle/img/Group 158.svg" alt=""></span>
+                </button>
+            </div>
+            <!-- commit-prject -->
+            <div class="modal-body edit-project-body  chaaaa" id="myDIV">
+                <div class="create-project-important-all">
+                    <div class="important-project">
+                        <div class="container">
+                            <div class="row ">
+
+                                <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                                    <div class="coment-project-div">
+                                        <div class="project-coment-div">
+                                            <img src="./style/mystyle/img/Group 112.png" alt=""
+                                                 class="coment-project-img">
+                                        </div>
+                                        <div class="coment-project-name">
+                                            <h2 class="coment-name">Utkonos - entry to the market</h2>
+                                            <h6>Project #1024</h6>
+                                        </div>
+                                    </div>
+
+                                    <div class="coment-title">
+                                        <div class="h3">BRIEF</div>
+                                        <h6>Utkonos is an online hypermarket with round-the-clock delivery in
+                                            Moscow and the region. Utkonos helps not to waste time in queues of
+                                            shops and traffic jams, not to wear heavy purchases and free time
+                                            for yourself and your family. In the online hypermarket you will
+                                            find more than 20 000 products: from fresh seasonal fruits and
+                                            vegetables to a variety of household chemicals. You can order goods
+                                            on the site or through the mobile application "Utkonos" wherever
+                                            there is an Internet. You can buy products from home, for a walk
+                                            with your child, from the office, in traffic jams and even at the
+                                            summer cottage. It will not take you as much time as a trip to the
+                                            hypermarket.
+                                        </h6>
+                                        <h6>The company has more than 3,700 employees and its own fleet of more
+                                            than 800 vehicles equipped with special chambers to keep food fresh.
+                                            Our company does not cooperate with intermediaries, so your order
+                                            will never be lost with an unknown courier.
+                                        </h6>
+                                        <h6>
+                                            Every day, the employees of Utkonos ONLINE strive to ensure that
+                                            shopping brings both joy and pleasure, and most importantly, do not
+                                            take up the time that you can spend together with family and
+                                            friends.
+                                        </h6>
+                                    </div>
+                                    <div class="create-project-title mb-2">
+                                        BRIEF FILES
+                                    </div>
+                                    <div class="commit-img-prfiele">
+                                        <div class="name-img-center">
+                                            <div>
+                                                <img src="./style/mystyle/img/Rectangle 33.png" alt="">
+                                            </div>
+                                            <h6>PDF</h6>
+                                        </div>
+                                        <div class="name-img-center">
+                                            <div>
+                                                <img src="./style/mystyle/img/Rectangle 33.png" alt="">
+                                            </div>
+                                            <h6>TXT</h6>
+                                        </div>
+                                        <div class="name-img-center">
+                                            <div>
+                                                <img src="./style/mystyle/img/Rectangle 33.png" alt="">
+                                            </div>
+                                            <h6>PNG</h6>
+                                        </div>
+                                        <div class="name-img-center">
+                                            <div>
+                                                <img src="./style/mystyle/img/Rectangle 33.png" alt="">
+                                            </div>
+                                            <h6>TXT</h6>
+                                        </div>
+                                        <div class="name-img-center">
+                                            <div>
+                                                <img src="./style/mystyle/img/Rectangle 33.png" alt="">
+                                            </div>
+                                            <h6>JPG</h6>
+                                        </div>
+                                        <div class="name-img-center">
+                                            <div>
+                                                <img src="./style/mystyle/img/Rectangle 33.png" alt="">
+                                            </div>
+                                            <h6>PDF</h6>
+                                        </div>
+
+                                    </div>
+                                    <div class="comm-line"></div>
+                                    <div class="commit-number text-right"><img class="mr-1"
+                                                                               src="./style/mystyle/img/Group 93.png"
+                                                                               alt=""> 12 <img
+                                            src="./style/mystyle/img/Vector.png" class="mr-1" alt="">23
+                                    </div>
+                                    <div class="user-commit-media">
+                                        <div class="media">
+                                            <img src="./style/mystyle/img/Rectangle 13 (1).png" class="mr-3"
+                                                 alt="...">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">Gaoncar Mikhopadhyay </h5>
+                                                <h6>12.04.2020 at 19:08:57</h6>
+                                                <p>
+                                                    Utkonos is an online hypermarket with round-the-clock
+                                                    delivery in Moscow and the region. Utkonos helps not to
+                                                    waste time in queues of shops and traffic jams, not to wear
+                                                    heavy purchases and free time for yourself and your family.
+                                                    In the online hypermarket you will find more than 20 000
+                                                    products: from fresh seasonal fruits and vegetables to a
+                                                    variety of household chemicals. You can order goods on the
+                                                    site or through the mobile application "Utkonos" wherever
+                                                    there is an Internet. You can buy products from home, for a
+                                                    walk with your child, from the office, in traffic jams and
+                                                    even at the summer cottage. It will not take you as much
+                                                    time as a trip to the hypermarket.
+                                                </p>
+
+                                                <div class="media mt-0">
+                                                    <a class="mr-3" href="#">
+                                                        <img src="./style/mystyle/img/Rectangle 12.png"
+                                                             class="mr-3" alt="...">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h5 class="mt-0">Gaoncar Mikhopadhyay</h5>
+                                                        <h6>12.04.2020 at 19:08:57</h6>
+                                                        <p>
+                                                            Cras sit amet nibh libero, in gravida nulla. Nulla
+                                                            vel metus scelerisque ante sollicitudin. Cras purus
+                                                            odio, vestibulum in vulputate at, tempus viverra
+                                                            turpis. Fusce condimentum nunc ac nisi vulputate
+                                                            fringilla. Donec lacinia congue felis in faucibus.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                    <div class="due-date">
+                                        <div class="start-and-due-data">
+                                            Start and Due date
+                                        </div>
+                                        <h6>
+                                            Apr 13 - Jun 31
+                                        </h6>
+                                    </div>
+                                    <div class="posting-button mt-3">
+                                        <h2>
+                                            Posting on
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>Facebook</button>
+                                            <button>Instagram</button>
+                                            <button class="change-button">YouTube</button>
+                                            <button>Vkontakte</button>
+                                            <button>Twitter</button>
+                                            <button>LinkedIn</button>
+                                        </div>
+                                    </div>
+                                    <div class="posting-button mt-3">
+                                        <h2>
+                                            Publication date
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>03.04</button>
+                                            <button>03.04</button>
+                                            <button>07.04</button>
+                                            <button>16.04</button>
+                                        </div>
+                                    </div>
+                                    <div class="commit-flow mt-3">
+                                        <h2>FLOW</h2>
+                                        <div class="flow-commit-bottom">
+                                            <button>Start project</button>
+                                            <button class="change-button">Briefing</button>
+                                            <button>Briefing files</button>
+                                            <button>Design</button>
+                                            <button>Copywriting</button>
+                                        </div>
+                                    </div>
+                                    <div class="assigment-button mt-3">
+                                        <h2>
+                                            Assigness
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>Rachapalli Chatterjee</button>
+                                            <button>Banerjee Abusaria</button>
+                                            <button>Gaoncar Mikhopadhyay</button>
+                                        </div>
+                                    </div>
+                                    <div class="assigment-button mt-3">
+                                        <h2>
+                                            Manager
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>Banerjee Abusaria</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- edit commit pro button click -->
+            <div class="modal-body edit-project-body  chaaaa" id="myDIVc">
+                <div class="create-project-important-all">
+                    <div class="important-project">
+                        <div class="container">
+                            <div class="row ">
+
+                                <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                                    <div class="coment-project-div">
+                                        <div class="project-coment-div">
+                                            <img src="./style/mystyle/img/Group 112.png" alt=""
+                                                 class="coment-project-img">
+                                        </div>
+                                        <div class="coment-project-name">
+                                            <h2 class="coment-name">Utkonos - entry to the market</h2>
+                                            <h6>Project #1023</h6>
+                                        </div>
+                                    </div>
+
+                                    <div class="coment-title">
+                                        <div class="h3">BRIEF</div>
+                                        <h6>Utkonos is an online hypermarket with round-the-clock delivery in
+                                            Moscow and the region. Utkonos helps not to waste time in queues of
+                                            shops and traffic jams, not to wear heavy purchases and free time
+                                            for yourself and your family. In the online hypermarket you will
+                                            find more than 20 000 products: from fresh seasonal fruits and
+                                            vegetables to a variety of household chemicals. You can order goods
+                                            on the site or through the mobile application "Utkonos" wherever
+                                            there is an Internet. You can buy products from home, for a walk
+                                            with your child, from the office, in traffic jams and even at the
+                                            summer cottage. It will not take you as much time as a trip to the
+                                            hypermarket.
+                                        </h6>
+                                        <h6>The company has more than 3,700 employees and its own fleet of more
+                                            than 800 vehicles equipped with special chambers to keep food fresh.
+                                            Our company does not cooperate with intermediaries, so your order
+                                            will never be lost with an unknown courier.
+                                        </h6>
+                                        <h6>
+                                            Every day, the employees of Utkonos ONLINE strive to ensure that
+                                            shopping brings both joy and pleasure, and most importantly, do not
+                                            take up the time that you can spend together with family and
+                                            friends.
+                                        </h6>
+                                    </div>
+                                    <div class="create-project-title mb-2">
+                                        BRIEF FILES
+                                    </div>
+                                    <div class="edit-files">
+                                        <div class="edit-file-begin">
+                                            <div class="edit-curent-div-file">
+                                                <button class="edit-button-img">x</button>
+                                                <img src="./style/mystyle/img/Rectangle 33.png"
+                                                     alt="" class="edit-create-img-cureent">
+                                            </div>
+                                            <h6 class="text-center edit-file-name">PDF</h6>
+                                        </div>
+                                        <div class="edit-file-begin">
+                                            <div class="edit-curent-div-file">
+                                                <button class="edit-button-img">x</button>
+                                                <img src="./style/mystyle/img/Rectangle 33.png"
+                                                     alt="" class="edit-create-img-cureent">
+                                            </div>
+                                            <h6 class="text-center edit-file-name">SKETCH</h6>
+                                        </div>
+                                        <div class="edit-file-begin">
+                                            <div class="edit-curent-div-file">
+                                                <button class="edit-button-img">x</button>
+                                                <img src="./style/mystyle/img/Rectangle 33.png"
+                                                     alt="" class="edit-create-img-cureent">
+                                            </div>
+                                            <h6 class="text-center edit-file-name">PNG</h6>
+                                        </div>
+                                        <div class="edit-file-begin">
+                                            <div class="edit-curent-div-file">
+                                                <button class="edit-button-img">x</button>
+                                                <img src="./style/mystyle/img/Rectangle 33.png"
+                                                     alt="" class="edit-create-img-cureent">
+                                            </div>
+                                            <h6 class="text-center edit-file-name">JPG</h6>
+                                        </div>
+                                        <div class="edit-file-begin">
+                                            <div class="edit-curent-div-file">
+                                                <button class="edit-button-img">x</button>
+                                                <img src="./style/mystyle/img/Rectangle 33.png"
+                                                     alt="" class="edit-create-img-cureent">
+                                            </div>
+                                            <h6 class="text-center edit-file-name">TXT</h6>
+                                        </div>
+
+                                    </div>
+                                    <div class="comm-line"></div>
+                                    <div class="commit-number text-right"><img class="mr-1"
+                                                                               src="./style/mystyle/img/Group 93.png"
+                                                                               alt=""> 12 <img
+                                            src="./style/mystyle/img/Vector.png" class="mr-1" alt="">23
+                                    </div>
+                                    <div class="user-commit-media">
+                                        <div class="media">
+                                            <img src="./style/mystyle/img/Rectangle 13 (1).png" class="mr-3"
+                                                 alt="...">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">Gaoncar Mikhopadhyay </h5>
+                                                <h6>12.04.2020 at 19:08:57</h6>
+                                                <p>
+                                                    Utkonos is an online hypermarket with round-the-clock
+                                                    delivery in Moscow and the region. Utkonos helps not to
+                                                    waste time in queues of shops and traffic jams, not to wear
+                                                    heavy purchases and free time for yourself and your family.
+                                                    In the online hypermarket you will find more than 20 000
+                                                    products: from fresh seasonal fruits and vegetables to a
+                                                    variety of household chemicals. You can order goods on the
+                                                    site or through the mobile application "Utkonos" wherever
+                                                    there is an Internet. You can buy products from home, for a
+                                                    walk with your child, from the office, in traffic jams and
+                                                    even at the summer cottage. It will not take you as much
+                                                    time as a trip to the hypermarket.
+                                                </p>
+
+                                                <div class="media mt-0">
+                                                    <a class="mr-3" href="#">
+                                                        <img src="./style/mystyle/img/Rectangle 12.png"
+                                                             class="mr-3" alt="...">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h5 class="mt-0">Gaoncar Mikhopadhyay</h5>
+                                                        <h6>12.04.2020 at 19:08:57</h6>
+                                                        <p>
+                                                            Cras sit amet nibh libero, in gravida nulla. Nulla
+                                                            vel metus scelerisque ante sollicitudin. Cras purus
+                                                            odio, vestibulum in vulputate at, tempus viverra
+                                                            turpis. Fusce condimentum nunc ac nisi vulputate
+                                                            fringilla. Donec lacinia congue felis in faucibus.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                    <div class="due-date">
+                                        <div class="start-and-due-data">
+                                            Start and Due date
+                                        </div>
+                                        <h6>
+                                            Apr 13 - Jun 31
+                                        </h6>
+                                    </div>
+                                    <div class="posting-button mt-3">
+                                        <h2>
+                                            Posting on
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>Facebook</button>
+                                            <button>Instagram</button>
+                                            <button class="change-button">YouTube</button>
+                                            <button>Vkontakte</button>
+                                            <button>Twitter</button>
+                                            <button>LinkedIn</button>
+                                        </div>
+                                    </div>
+                                    <div class="posting-button mt-3">
+                                        <h2>
+                                            Publication date
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>03.04</button>
+                                            <button>03.04</button>
+                                            <button>07.04</button>
+                                            <button>16.04</button>
+                                            <input class="flow-plus" type="button" value="+">
+                                        </div>
+                                    </div>
+                                    <div class="commit-flow mt-3">
+                                        <h2>FLOW</h2>
+                                        <div class="flow-commit-bottom">
+                                            <button>Start project</button>
+                                            <button class="change-button">Briefing</button>
+                                            <button>Briefing files</button>
+                                            <button>Design</button>
+                                            <button>Copywriting</button>
+                                        </div>
+                                    </div>
+                                    <div class="assigment-button mt-3">
+                                        <h2>
+                                            Assigness
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>Rachapalli Chatterjee<span
+                                                    class="ml-2 delete-edit-user">x</span></button>
+                                            <button>Banerjee Abusaria<span
+                                                    class="ml-2 delete-edit-user">x</span></button>
+                                            <button>Gaoncar Mikhopadhyay<span
+                                                    class="ml-2 delete-edit-user">x</span></button>
+                                            <input class="flow-plus" type="button" value="+">
+                                        </div>
+                                    </div>
+                                    <div class="assigment-button mt-3">
+                                        <h2>
+                                            Manager
+                                        </h2>
+                                        <div class="button-div">
+                                            <button>Banerjee Abusaria<span
+                                                    class="ml-2 delete-edit-user">x</span></button>
+                                            <input class="flow-plus" type="button" value="+">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+
+    $('.user-project-edit').click(function () {
+        {#$('#edit-body').html("NARMIN")#}
+        var url = $(this).attr('data-url');
+        console.log(url)
+        $.ajax({
+            url: url,
+            method: "GET",
+
+            success: function (data) {
+                console.log(data)
+                $('#edit-body').html(data)
+
+
+            },
+
+            error: function (xhr, err, msg) {
+                console.log(xhr, err, msg);
+            }
+        });
+
+    })
+
+</script>
+
+
+<script src="{% static './style/bootstrap/jquery/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static './style/bootstrap/jquery/popper.min.js' %}"></script>
+<script src="{% static './style/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static './style/font_awesome/js/all.min.js' %}"></script>
+<script src="{% static './style/mystyle/js/style.js' %}"></script>
+
+</body>
+
+</html>

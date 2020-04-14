@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load widget_tweaks %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aidatoolkit</title>
+    <link rel="stylesheet" href="{% static './style/font_awesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static './style/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static './style/mystyle/css/style.css' %}">
+    <link rel="stylesheet" href="{% static './style/animate/animate.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="sign-all">
+                <div class="sign-in">
+                    <div class="logo-div mx-auto d-block">
+                        <img class="logo-img " src="{% static './style/mystyle/img/logo.png' %}" alt="">
+                    </div>
+                    <form class="form-sign-in" method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="email-div">
+                                {% render_field field class='sign-email-password' placeholder=field.label %}
+                            </div>
+                        {% endfor %}
+                        <div class="create-button">
+                            <button class="create-team" type="submit">Sign in</button>
+                        </div>
+                        <div class="sign-reset text-center">
+                            <a class="sing-a" href="{% url 'createteam' %}">create team</a>
+                            <a class="sing-a" href="password-reset.html">password remind</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static './style/bootstrap/jquery/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static './style/bootstrap/jquery/popper.min.js' %}"></script>
+<script src="{% static './style/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static './style/font_awesome/js/all.min.js' %}"></script>
+<script src="{% static './style/mystyle/js/style.js' %}"></script>
+</body>
+
+</html>
