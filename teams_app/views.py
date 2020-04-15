@@ -134,11 +134,12 @@ def dashboard(request):
 
 def dashboard_edit(request,id):
     teammember = TeamMembers.objects.filter(id=id).first()
-    team = teammember.team
+    team = Team.objects.all().filter(id=id).first()
+
     document = TeamDocuments.objects.filter(team_id=team)
     picture = team.team_picture
-    members =  teammember.team.files.all().exclude(member_status='Leader')
-    leader = teammember.team.files.all().filter(member_status='Leader')[0]
+    members = team.files.all().exclude(member_status='Leader')
+    leader = team.files.all().filter(member_status='Leader')[0]
 
 
 
@@ -149,7 +150,7 @@ def dashboard_edit(request,id):
         'files' : document,
         'members': members,
         'leader': leader,
-        'teammember' : teammember
+        'teammember' : team
     }
 
     if request.method == 'POST':
@@ -582,3 +583,7 @@ def verify_view(request, token, id):
         return redirect('index')
 
 
+def delete_project(request, id):
+    return JsonResponse({
+        'sd' : 'sdfg'
+    })

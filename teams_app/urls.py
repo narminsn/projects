@@ -9,5 +9,6 @@ urlpatterns = [
     path('dashboard/my/project/', views.active_my, name='my-active'),
     path('dashboard/finished/', views.finished_project, name='finish'),
     path('dashboard/required/', views.required_project, name='required'),
+    path('dashboard/delete/<int:id>', views.delete_project, name='dash-delete'),
 
 ]

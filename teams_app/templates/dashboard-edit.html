@@ -68,39 +68,7 @@
                                     {% render_field form.description class='form-control create-project-input' placeholder='Project' %}
 
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="create-project-title mb-2">
-                                        BRIEF FILES
-                                    </div>
-                                    <p class="create-project-content">
-                                        For a more detailed explanation of the project, you can
-                                        attach files
-                                        that will help your colleagues work more productively. You
-                                        can download
-                                        any document format except html-code.
-                                    </p>
-                                    <div class="edit-files">
-                                        {% for field in files %}
-                                            <div class="edit-file-begin">
-                                                <div class="edit-curent-div-file">
-                                                    <button class="edit-button-img remove-file">x</button>
-                                                    <img src="./style/mystyle/img/Rectangle 33.png"
-                                                         alt="" class="edit-create-img-cureent">
-                                                </div>
-                                                <h6 class="text-center edit-file-name">PDF</h6>
-                                            </div>
 
-                                        {% endfor %}
-
-
-                                    </div>
-                                    <div class="edit-uppload">
-                                        <input type="file" id="brief-file" class="create-project-dhash-button"
-                                               name="thumbnail" value="" multiple>
-                                        <img src="./style/mystyle/img/Group 152.png" alt=""
-                                             class="create-img-cureent">
-                                    </div>
-                                </div>
                                 <div class="col-md-4 mb-3 ">
                                     <label for="validationCustom03" class="label-name">Assigness
                                     </label>
@@ -126,7 +94,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-3 ">
-                                    <label for="validationCustom03" class="label-name">Position
+                                    <label for="validationCustom03" class="label-name">f
                                     </label>
                                     <div class="vv position">
                                         {% if members %}
@@ -164,49 +132,16 @@
                                     </div>
                                     <div class="project-create-sosial">
                                         <button class="create-p-sosial face-create ">Facebook</button>
-                                        <button class="create-p-sosial instag-create">Instagram</button>
-                                        <button class="create-p-sosial you-create">YouTube</button>
-                                        <button class="create-p-sosial vkon-create">Vkontakte</button>
-                                        <button class="create-p-sosial twither-create">Twitter</button>
-                                        <button class="create-p-sosial linki-create">LinkedIn</button>
-                                    </div>
+                                       </div>
                                 </div>
-                                <div class="col-md-6 mb-3 mt-3">
 
-                                    <label for="customRange1" class="range-label">Total publications
-                                    </label>
-                                    <div class="text-right rang-nu ran-1">
-                                        0
-                                    </div>
-                                    <input type="range" min="0" max="110" class="custom-range custom-1"
-                                           id="customRange1">
-                                </div>
-                                <div class="col-md-6 mb-3 mt-3">
-                                    <label for="customRange1" class="range-label">Publication A DAY
-                                    </label>
-                                    <div class="text-right rang-nu ran-2">
-                                        0
-                                    </div>
-                                    <input type="range" min="0" max="110" class="custom-range custum-2"
-                                           id="customRange1">
-                                </div>
-                                <div class="col-md-12 mb-2">
-                                    <div class="create-project-title mb-2">
-                                        PUBLICATION tIME
-                                    </div>
-                                    <div>
-                                        <button class="edit-time">10:00</button>
-                                        <button class="edit-time">16:00</button>
-                                        <button class="edit-time">17:00</button>
-                                        <button class="edit-time">18:00</button>
-                                    </div>
-                                </div>
+
 
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class=" btn delete-project-button" data-dismiss="modal">Delete project</button>
+                        <button class=" btn delete-project-button" >Delete project</button>
                         <button type="submit" id="sub" class="btn start-project-button">Start project</button>
                     </div>
 

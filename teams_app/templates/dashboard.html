@@ -148,12 +148,12 @@
                     <div class="team-cart">
                         <div class="media">
                             {% if field.team.user == request.user %}
-                                <div data-url="{% url 'dash-edit' field.id %}" class="user-project-edit"
+                                <div data-url="{% url 'dash-edit' field.team.id %}" class="user-project-edit"
                                      data-dismiss="modal" aria-hidden="true" data-toggle="modal"
                                      data-target="#exampleModalLongEdit"><i class="fas fa-edit"></i></div>
 
                             {% else %}
-                                <div data-url="{% url 'dash-edit' field.id %}" class="user-project-edit"
+                                <div data-url="{% url 'dash-edit' field.team.id %}" class="user-project-edit"
                                      data-dismiss="modal" aria-hidden="true"><i class="fas fa-edit"></i></div>
                             {% endif %}
                             {% if field.team.team_picture %}
@@ -185,11 +185,7 @@
                             </h3>
                             <div class="sosial-buttons">
                                 <button class="sosial-buttun facebook" type="button">Facebook</button>
-                                <button class="sosial-buttun instagram" type="button">Instagram</button>
-                                <button class="sosial-buttun youtobe" type="button">YouTube</button>
-                                <button class="sosial-buttun vkontact" type="button">Vkontakte</button>
-                                <button class="sosial-buttun twither" type="button">Twitter</button>
-                                <button class="sosial-buttun linkedin" type="button">LinkedIn</button>
+
                             </div>
                             <h3 class="posting-on">
                                 Project members:
@@ -283,26 +279,7 @@
                                                         {% render_field form.description class='form-control create-project-input' placeholder='Project' %}
 
                                                     </div>
-                                                    <div class="col-md-12 mb-2">
-                                                        <div class="create-project-title mb-2">
-                                                            BRIEF FILES
-                                                        </div>
-                                                        <p class="create-project-content">
-                                                            For a more detailed explanation of the project, you can
-                                                            attach files
-                                                            that will help your colleagues work more productively. You
-                                                            can download
-                                                            any document format except html-code.
-                                                        </p>
 
-
-                                                        <input type="file" class="create-project-dhash-button"
-                                                               name="thumbnail" value="" multiple>
-                                                        <!-- <button class="create-project-dhash-button"> click or drag files
-                                                            to attach
-                                                        </button> -->
-
-                                                    </div>
                                                     <div class="col-md-4 mb-3 ">
                                                         <label for="validationCustom03" class="label-name">Assigness
                                                         </label>
@@ -347,32 +324,10 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6 mb-3 mt-3">
 
-                                                        <label for="customRange1" class="range-label">Total publications
-                                                        </label>
-                                                        <div class="text-right rang-nu ran-1">
-                                                            0
-                                                        </div>
-                                                        <input type="range" min="0" max="110"
-                                                               class="custom-range custom-1"
-                                                               id="customRange1">
-                                                    </div>
-                                                    <div class="col-md-6 mb-3 mt-3">
-                                                        <label for="customRange1" class="range-label">Publication A DAY
-                                                        </label>
-                                                        <div class="text-right rang-nu ran-2">
-                                                            0
-                                                        </div>
-                                                        <input type="range" min="0" max="110"
-                                                               class="custom-range custum-2"
-                                                               id="customRange1">
-                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button data-dismiss="modal" class=" btn delete-project-button">
-                                                        Delete project
-                                                    </button>
+
                                                     <button type="submit" class="btn start-project-button">Start
                                                         project
                                                     </button>
@@ -406,9 +361,6 @@
             <div class="">
                 <button type="button" class="close create-projeect-close-button" data-dismiss="modal">
                     <span aria-hidden="true" class="text-white">&times;</span>
-                </button>
-                <button type="button" class="close edit-projeect-close-button mr-2" data-dismiss="modal">
-                    <span aria-hidden="true" class="text-white"><i class="fas fa-check"></i></span>
                 </button>
             </div>
             <!-- edit-prject -->
