@@ -3,24 +3,12 @@ from django.shortcuts import render, redirect
 from teams_app.forms import CreateTeam, CreateMember
 from teams_app.models import Team, TeamMembers, TokenModelTeam,TeamDocuments
 from user_app.models import MyUser
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 import  datetime
-# Create your views here.
-def create_team(request):
-    context = {}
-    context['form'] = CreateTeam()
-    if request.method == 'POST':
-        form = CreateTeam(request.POST, request.FILES)
-        if form.is_valid():
-            article = form.save(commit=False)
-            article.user = request.user
-            article.save()
 
-            TeamMembers.objects.create(team=article, member=article.user, member_status='Leader', is_active=True)
-            print("CREATED TEAM LEADER!")
-            return redirect('index')
-    return render(request, 'create_team.html', context)
+# Create your views here.
+
 
 
 def dashboard(request):
@@ -181,7 +169,7 @@ def dashboard(request):
 
 def dashboard_edit(request,id):
     # if request.is_ajax:
-    teammember = TeamMembers.objects.filter(id=id,member=request.user).first()
+    teammember = TeamMembers.objects.filter(id=id).first()
     team = teammember.team
     document = TeamDocuments.objects.filter(team_id=team)
     picture = team.team_picture
@@ -226,6 +214,7 @@ def dashboard_edit(request,id):
             position = request.POST.getlist('position')
             manager = request.POST.get('manager')
 
+            # return HttpResponse(assinger)
             for i in team.files.all():
                 i.delete()
 
@@ -696,49 +685,20 @@ def finished_project(request):
     return render(request, 'dashboard.html', context)
 
 
-def my_teams(request):
-    context = {}
-
-    a = Team.objects.all()
-    temp = []
-    for i in a:
-        test = i.files.all()
-        for j in test:
-            if request.user == j.member:
-                if j.is_active == True:
-                    temp.append(j.team)
-    context['team'] = temp
-
-    return render(request, 'myteams.html', context)
 
 
 def detail_team(request, id):
-    context = {}
-    temp = []
-    team = Team.objects.filter(id=id).last()
-    obj = team.files.all()
-    for i in obj:
-        temp.append(i.member)
-    context['team'] = team
-    if request.method == 'POST':
-        invite = request.POST.get('test')
-        desinger = request.POST.get('desinger')
-        print(desinger)
-        fuad = request.POST.get('fuad')
-        cavidan = request.POST.get('cavidan')
-        print(invite, desinger, fuad, cavidan)
-        user = MyUser.objects.filter(email=invite).last()
-        if user:
-            if user not in temp:
-                if desinger:
-                    TeamMembers.objects.create(team=team, member=user, member_status='Desinger')
-                    print('CREATED DESINGER')
-                elif fuad:
-                    TeamMembers.objects.create(team=team, member=user, member_status='fuad')
-                    print('CREATED FUAD')
-                elif cavidan:
-                    TeamMembers.objects.create(team=team, member=user, member_status='cavidan')
-                    print('CREATED CAVIDAN')
+
+    data = Team.objects.filter(id=id).first()
+
+    members = data.files.all().exclude(member_status='Leader')
+    leader = data.files.all().filter(member_status='Leader').first()
+
+    context = {
+        'data' : data,
+        'members': members,
+        'leader' : leader
+    }
 
     return render(request, 'detail.html', context)
 
@@ -764,19 +724,3 @@ def verify_view(request, token, id):
         return redirect('index')
 
 
-def test(request):
-    team = Team.objects.last()
-    if request.method == 'POST':
-        salam = request.POST.getlist('salam')
-        for i in salam:
-            user = MyUser.objects.filter(email=i).last()
-            print(user)
-            TeamMembers.objects.create(team=team, member=user, member_status='fuad')
-        print('SUCCESS')
-        # for i in salam:
-        #     user = MyUser.objects.filter(username=i).last()
-        #     TeamMembers.objects.create(team=team, member=user, member_status='Salam')
-        #     print('CREATED SUCCESSFULL')
-        #     print(i)
-        # print(salam)
-    return render(request, 'test.html')

@@ -2,9 +2,6 @@ from django.urls import path
 from teams_app import views
 
 urlpatterns = [
-    path('create/', views.create_team, name='createteam'),
-    path('myteam/', views.my_teams, name='myteams'),
-    path('test/', views.test, name='test'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('detail/<int:id>/', views.detail_team, name='detail'),
     path('verify_team/<str:token>/<int:id>/', views.verify_view, name='verify_view'),
