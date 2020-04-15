@@ -43,24 +43,29 @@
                         </div>
                     </div>
 
-                    <div class="commit-flow mt-3">
-                        <h2>FLOW</h2>
-                        <div class="flow-commit-bottom">
-                            {% for field in members %}
-                                <button>{{ field.member_status }}</button>
-                            {% endfor %}
+                    {% if members %}
+
+                        <div class="commit-flow mt-3">
+                            <h2>FLOW</h2>
+                            <div class="flow-commit-bottom">
+                                {% for field in members %}
+                                    <button>{{ field.member_status }}</button>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="assigment-button mt-3">
-                        <h2>
-                            Assigness
-                        </h2>
-                        <div class="button-div">
-                            {% for field in members %}
-                                <button>{{ field.member.username }}</button>
-                            {% endfor %}
+                        <div class="assigment-button mt-3">
+                            <h2>
+                                Assigness
+                            </h2>
+                            <div class="button-div">
+                                {% for field in members %}
+                                    <button>{{ field.member.username }}</button>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
+
+                    {% endif %}
+
                     <div class="assigment-button mt-3">
                         <h2>
                             Manager
