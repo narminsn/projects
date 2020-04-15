@@ -75,10 +75,17 @@
                             {#                            <a class=" link-a" href="#"> Archive</a>#}
                         </div>
                         <div class="users">
-                            <div class="user-name">David Morgan</div>
+                            <div class="user-name">{{ request.user.username }}</div>
                             <div class="user-img-div ">
-                                <img src="{% static './style/mystyle/img/Rectangle 10.png' %}" alt=""
-                                     class="profile-img">
+                                {% if request.user.profile_photo %}
+
+                                    <img src="{{ request.user.profile_photo.url }}" alt=""
+                                         class="profile-img">
+
+                                {% else %}
+                                    <img src="{% static './style/mystyle/img/Rectangle 10.png' %}" alt=""
+                                         class="profile-img">
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -162,7 +169,8 @@
                             {#                                 class="mr-3 team-img"#}
                             {#                                 alt="...">#}
                             <div class="media-body">
-                                <h5 class="mt-0 team-name" data-url="{% url 'detail' field.team.id %}" data-dismiss="modal" aria-hidden="true" data-toggle="modal"
+                                <h5 class="mt-0 team-name" data-url="{% url 'detail' field.team.id %}"
+                                    data-dismiss="modal" aria-hidden="true" data-toggle="modal"
                                     data-target="#exampleModalLongUser">{{ field.team.team_name }}</h5>
                                 <h6 class="team-time">
                                     <time datetime="2016-02-04 22:30">{{ field.team.start_time }}</time>
@@ -435,13 +443,9 @@
             </div>
 
 
-
         </div>
     </div>
 </div>
-
-
-
 
 
 </div>
@@ -453,7 +457,7 @@
         data_url = $(this).attr('data-url')
         console.log(data_url)
 
-                $.ajax({
+        $.ajax({
             url: data_url,
             method: "GET",
 

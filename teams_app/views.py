@@ -15,78 +15,50 @@ def dashboard(request):
     context = {}
     context['form'] = CreateTeam()
 
-
-
-
-
-
-
-
-    # a = Team.objects.all()
-    # temp = []
-    # for i in a:
-    #     test = i.files.all()
-    #     for j in test:
-    #         if request.user == j.member:
-    #             if j.is_active == True:
-    #                 temp.append(j.team)
-    teammember = TeamMembers.objects.filter(member=request.user).all()
-    # teammember = TeamMembers.objects.filter(member=request.user, member_status="Leader").all()
     b = TeamMembers.objects.all()
 
     team_my = Team.objects.all().filter(user=request.user)
     result_my = []
+
+
     for field in team_my:
-        if field.end_time.date() < datetime.datetime.now().date():
-            pass
-        else:
+        if field.end_time.date() >= datetime.datetime.now().date():  # MY ACTIVE PROJECTS  TEAM LEAD OLDUGUM PROJECTLER
             result_my.append(field.files.all()[0])
-
-
-
-    # team = Team.objects.all().filter(user=request.user)
-    search = request.GET.get('search')
-
 
 
     team_data = Team.objects.all()
     team = []
+
+
     for i in team_data:
         for member in i.files.all():
             if member.member == request.user:
-                team.append(i)
+                team.append(i)                              # ASSIGN OLDUGUM BUTUN PROJECTLER
 
 
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
 
 
     result_required = []
-
-
-
     result = []
+
+
     for field in team:
-        if field.end_time.date() < datetime.datetime.now().date():
-            pass
-        else:
+        if field.end_time.date() >= datetime.datetime.now().date():   # ASSIGN OLDUGUM ACTIVE PROJECTLER
             result.append(field.files.all()[0])
-            # for i in field.files.all():
-            #     result.append(i)
-        if field.end_time.date() == tomorrow.date():
+
+        if field.end_time.date() == tomorrow.date():        # ASSIGN OLDUGUM DEADLINE A 1 GUN QALMIS PROJECTLER
             result_required.append(field.files.all()[0])
 
-            # for i in field.files.all():
-            #     result_required.append(i)
 
     context['team'] = result
     context['countall'] = len(result)
     context['countmy'] =len(result_my)
-
     context['countrequired'] = len(result_required)
 
+    search = request.GET.get('search')
 
-
-    if search:
+    if search:                                 # SEARCH HISSE YENIDEN FILTER
         team_data = Team.objects.filter(
             Q(team_name__icontains=search)
 
@@ -97,8 +69,6 @@ def dashboard(request):
                 if member.member == request.user:
                     team.append(i)
 
-
-
         result = []
         for field in team:
             if field.end_time.date() >= datetime.datetime.now().date():
@@ -108,9 +78,13 @@ def dashboard(request):
         context['countall'] = len(result)
 
     context['test'] = list(b)
+
+
+
+
+
     if request.method == 'POST':
         form = CreateTeam(request.POST, request.FILES)
-        files = request.FILES.getlist('thumbnail')
         if form.is_valid():
             picture = request.FILES.get('team_picture')
 
@@ -124,15 +98,11 @@ def dashboard(request):
             article.team_picture = picture
             article.save()
 
-            for f in files:
-
-                gallery = TeamDocuments(team_id=article, document=f)
-                gallery.save()
             assinger = request.POST.getlist('assinger')
             position = request.POST.getlist('position')
             manager = request.POST.get('manager')
 
-            if manager:
+            if manager:     # TEAM LEAD SET
                 verify_manager = MyUser.objects.filter(email=manager).last()
                 if verify_manager:
                     TeamMembers.objects.create(team=article, member=verify_manager,
@@ -144,23 +114,18 @@ def dashboard(request):
                                                member_status='Leader', is_active=True)
 
             print("CREATED TEAM LEADER!")
-            print(assinger)
-            print('ASGHJRHGDFKM<')
-            # member = ''
-            if assinger and position:
 
+
+
+
+            if assinger and position:      # ASSIGNERS AND POSITION SET
                 i = 0
                 for user in assinger:
-
-
                     email = MyUser.objects.filter(email=user).last()
                     if email:
-
                         TeamMembers.objects.create(team=article, member=email, member_status=position[i])
                         i +=1
-
                         print('CREATED MEMBER!!!')
-            # article.save()
         return redirect(dashboard)
     return render(request, 'dashboard.html', context)
 
@@ -168,7 +133,6 @@ def dashboard(request):
 
 
 def dashboard_edit(request,id):
-    # if request.is_ajax:
     teammember = TeamMembers.objects.filter(id=id).first()
     team = teammember.team
     document = TeamDocuments.objects.filter(team_id=team)
@@ -192,7 +156,6 @@ def dashboard_edit(request,id):
 
 
         form = CreateTeam(request.POST, request.FILES,instance=team)
-        files = request.FILES.getlist('thumbnail')
         if form.is_valid():
             picture = request.FILES.get('team_picture')
             start = form.cleaned_data['start_time']
@@ -206,19 +169,16 @@ def dashboard_edit(request,id):
                 article.team_picture = picture
             article.save()
 
-            for f in files:
-                gallery = TeamDocuments(team_id=article, document=f)
-                gallery.save()
+
 
             assinger = request.POST.getlist('assinger')
             position = request.POST.getlist('position')
             manager = request.POST.get('manager')
 
-            # return HttpResponse(assinger)
-            for i in team.files.all():
+            for i in team.files.all():     # ASSIGN OLAN USERLERI SILIB YENIDEN YARADIRAM
                 i.delete()
 
-            if manager:
+            if manager:         # TEAMLEAD SET
                 verify_manager = MyUser.objects.filter(email=manager).last()
                 if verify_manager:
                     TeamMembers.objects.create(team=article, member=verify_manager,
@@ -231,7 +191,7 @@ def dashboard_edit(request,id):
 
             i = 0
 
-            if assinger and position:
+            if assinger and position:     # ASSIGNERS AND POSITION SET
 
                 for user in assinger:
 
@@ -251,24 +211,16 @@ def dashboard_edit(request,id):
 def active_my(request):
     context = {}
     context['form'] = CreateTeam()
-    # a = Team.objects.all()
-    # temp = []
-    # for i in a:
-    #     test = i.files.all()
-    #     for j in test:
-    #         if request.user == j.member:
-    #             if j.is_active == True:
-    #                 temp.append(j.team)
-    teammember = TeamMembers.objects.filter(member=request.user,member_status="Leader").all()
-    # context['team'] = teammember
+
     b = TeamMembers.objects.all()
-    context['test'] = list(b)
 
     team_data = Team.objects.all()
+
     team_list = []
+
     for i in team_data:
         for member in i.files.all():
-            if member.member == request.user:
+            if member.member == request.user:     # ASSIGN OLDUGUM BUTUN PROJECTLER
                 team_list.append(i)
 
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
@@ -279,19 +231,16 @@ def active_my(request):
 
     result_all = []
     for field in team_list:
-        if field.end_time.date() < datetime.datetime.now().date():
-            pass
-        else:
+        if field.end_time.date() >= datetime.datetime.now().date():   # ASSIGN OLDUGUM ACTIVE PROJECTLER
             result_all.append(field.files.all()[0])
-            # for i in field.files.all():
-            #     result.append(i)
+
         if field.end_time.date() == tomorrow.date():
-            result_required.append(field.files.all()[0])
+            result_required.append(field.files.all()[0])   # REQUIRED PROJECTLER
 
 
 
     search = request.GET.get('search')
-    if search:
+    if search:                                     # SEARCH HISSE FILTER
         team = Team.objects.filter(
             Q(team_name__icontains=search) &
             Q(user=request.user)
@@ -304,27 +253,18 @@ def active_my(request):
 
     result = []
     for field in team:
-        if field.end_time.date() < datetime.datetime.now().date():
-            pass
-        else:
+        if field.end_time.date() >= datetime.datetime.now().date():   # TEAMLEAD OLDUGUM ACTIVE PORJECTLER
             result.append(field.files.all()[0])
-            # for i in field.files.all():
-            #     result.append(i)
+
     context['team'] = result
     context['countall'] = len(result_all)
     context['countmy'] = len(result)
 
     context['countrequired'] = len(result_required)
-    team_data = Team.objects.all()
-    team = []
-    for i in team_data:
-        for member in i.files.all():
-            if member.member == request.user:
-                team.append(i)
+
 
     if request.method == 'POST':
         form = CreateTeam(request.POST, request.FILES)
-        files = request.FILES.getlist('thumbnail')
         if form.is_valid():
             picture = request.FILES.get('team_picture')
 
@@ -338,14 +278,12 @@ def active_my(request):
             article.team_picture = picture
             article.save()
 
-            for f in files:
-                gallery = TeamDocuments(team_id=article, document=f)
-                gallery.save()
+
             assinger = request.POST.getlist('assinger')
             position = request.POST.getlist('position')
             manager = request.POST.get('manager')
 
-            if manager:
+            if manager: # TEAMLEAD SET
                 verify_manager = MyUser.objects.filter(email=manager).last()
                 if verify_manager:
                     TeamMembers.objects.create(team=article, member=verify_manager,
@@ -357,12 +295,10 @@ def active_my(request):
                                            member_status='Leader', is_active=True)
 
             print("CREATED TEAM LEADER!")
-            print(assinger)
-            print('ASGHJRHGDFKM<')
-            # member = ''
+
             i = 0
 
-            if assinger and position:
+            if assinger and position:      #ASSIGN POSITION SET
 
                 for user in assinger:
 
@@ -372,7 +308,6 @@ def active_my(request):
                         i += 1
 
                         print('CREATED MEMBER!!!')
-            # article.save()
         return redirect(dashboard)
 
     return render(request, 'dashboard.html', context)
@@ -382,26 +317,12 @@ def active_my(request):
 def required_project(request):
     context = {}
     context['form'] = CreateTeam()
-    # a = Team.objects.all()
-    # temp = []
-    # for i in a:
-    #     test = i.files.all()
-    #     for j in test:
-    #         if request.user == j.member:
-    #             if j.is_active == True:
-    #                 temp.append(j.team)
-    teammember = TeamMembers.objects.filter(member=request.user, member_status="Leader").all()
-    tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
-
-    search = request.GET.get('search')
-
-
     team_data = Team.objects.all()
 
     team_list = []
     for i in team_data:
         for member in i.files.all():
-            if member.member == request.user:
+            if member.member == request.user:        # ASSIGN OLDUGUM BUTUN PROJECTLER
                 team_list.append(i)
 
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
@@ -410,24 +331,19 @@ def required_project(request):
 
     result_all = []
     for field in team_list:
-        if field.end_time.date() < datetime.datetime.now().date():
-            pass
-        else:
+        if field.end_time.date() >= datetime.datetime.now().date(): # ASSIGN OLDUGUM ACTIVE PROJECTLER
             result_all.append(field.files.all()[0])
-            # for i in field.files.all():
-            #     result.append(i)
-        if field.end_time.date() == tomorrow.date():
+
+        if field.end_time.date() == tomorrow.date():    # REQUIRED PROJECTLER
             result_required.append(field.files.all()[0])
 
     team = Team.objects.all().filter(user=request.user)
     result = []
+
     for field in team:
-        if field.end_time.date() < datetime.datetime.now().date():
-            pass
-        else:
+        if field.end_time.date() >= datetime.datetime.now().date():  # TEAMLEAD OLDUGUM ACTIVE PROJECTLER
             result.append(field.files.all()[0])
-            # for i in field.files.all():
-            #     result.append(i)
+
     context['team'] = result_required
     context['countall'] = len(result_all)
     context['countmy'] = len(result)
@@ -435,11 +351,15 @@ def required_project(request):
     context['countrequired'] = len(result_required)
 
 
+    search = request.GET.get('search')
+
+
     if search:
         team_data = Team.objects.filter(
             Q(team_name__icontains=search)
 
         )
+                                        # SEARCH FILTER
 
         team_list = []
         for i in team_data:
@@ -460,23 +380,8 @@ def required_project(request):
         context['team'] = result_search
         context['countrequired'] = len(result_search)
 
-
-
-
-
-
-
-
-
-
-
-
-
-    b = TeamMembers.objects.all()
-    context['test'] = list(b)
     if request.method == 'POST':
         form = CreateTeam(request.POST, request.FILES)
-        files = request.FILES.getlist('thumbnail')
         if form.is_valid():
             picture = request.FILES.get('team_picture')
 
@@ -490,14 +395,12 @@ def required_project(request):
             article.team_picture = picture
             article.save()
 
-            for f in files:
-                gallery = TeamDocuments(team_id=article, document=f)
-                gallery.save()
+
             assinger = request.POST.getlist('assinger')
             position = request.POST.getlist('position')
             manager = request.POST.get('manager')
 
-            if manager:
+            if manager:    # TEAMLEAD SET
                 verify_manager = MyUser.objects.filter(email=manager).last()
                 if verify_manager:
                     TeamMembers.objects.create(team=article, member=verify_manager,
@@ -509,12 +412,10 @@ def required_project(request):
                                            member_status='Leader', is_active=True)
 
             print("CREATED TEAM LEADER!")
-            print(assinger)
-            print('ASGHJRHGDFKM<')
-            # member = ''
+
             i = 0
 
-            if assinger and position:
+            if assinger and position:      # ASSIGNERS SET
 
                 for user in assinger:
 
@@ -524,7 +425,6 @@ def required_project(request):
                         i += 1
 
                         print('CREATED MEMBER!!!')
-            # article.save()
         return redirect(dashboard)
 
     return render(request, 'dashboard.html', context)
@@ -533,26 +433,13 @@ def required_project(request):
 def finished_project(request):
     context = {}
     context['form'] = CreateTeam()
-    # a = Team.objects.all()
-    # temp = []
-    # for i in a:
-    #     test = i.files.all()
-    #     for j in test:
-    #         if request.user == j.member:
-    #             if j.is_active == True:
-    #                 temp.append(j.team)
-    teammember = TeamMembers.objects.filter(member=request.user,member_status="Leader").all()
-
-    search = request.GET.get('search')
-
-
 
     team_data = Team.objects.all()
 
     team_list = []
     for i in team_data:
         for member in i.files.all():
-            if member.member == request.user:
+            if member.member == request.user:   # ASSIGN OLDUGUM BUTUN PROJECTLER
                 team_list.append(i)
 
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
@@ -561,33 +448,32 @@ def finished_project(request):
     result_finish = []
     result_all = []
     for field in team_list:
-        if field.end_time.date() < datetime.datetime.now().date():
+        if field.end_time.date() < datetime.datetime.now().date():   #ASSIGN OLDUGUM ACTIVE PROJECTLER
             result_finish.append(field.files.all()[0])
-        else:
+        else:                                            # ASSIGN OLDUGUM BITMIS PROJECTLER
             result_all.append(field.files.all()[0])
-            # for i in field.files.all():
-            #     result.append(i)
-        if field.end_time.date() == tomorrow.date():
+
+        if field.end_time.date() == tomorrow.date():          # ASSIGN OLDUGUM REQUIRED PROJECTLER
             result_required.append(field.files.all()[0])
 
     team = Team.objects.all().filter(user=request.user)
     result = []
     for field in team:
-        if field.end_time.date() < datetime.datetime.now().date():
-            pass
-        else:
+        if field.end_time.date() >= datetime.datetime.now().date(): # TEAMLEAD OLDUGUM ACTIVE PROJECTLER
             result.append(field.files.all()[0])
-            # for i in field.files.all():
-            #     result.append(i)
+
     context['team'] = result_required
     context['countall'] = len(result_all)
     context['countmy'] = len(result)
     context['countrequired'] = len(result_required)
     context['team'] = result_finish
 
+
+    search = request.GET.get('search')
+
     if search:
         team_data = Team.objects.filter(
-            Q(team_name__icontains=search)
+            Q(team_name__icontains=search)      # SEARCH FILTER
 
         )
 
@@ -606,32 +492,9 @@ def finished_project(request):
         context['team'] = result_search
 
 
-    # team = Team.objects.all().filter(user=request.user)
-    # result_finish = []
-    # for field in team:
-    #     if field.end_time.date() < datetime.datetime.now().date():
-    #         result_finish.append(field.files.all()[0])
-    #
-    #
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    b = TeamMembers.objects.all()
-    context['test'] = list(b)
     if request.method == 'POST':
         form = CreateTeam(request.POST, request.FILES)
-        files = request.FILES.getlist('thumbnail')
         if form.is_valid():
             picture = request.FILES.get('team_picture')
 
@@ -645,14 +508,12 @@ def finished_project(request):
             article.team_picture = picture
             article.save()
 
-            for f in files:
-                gallery = TeamDocuments(team_id=article, document=f)
-                gallery.save()
+
             assinger = request.POST.getlist('assinger')
             position = request.POST.getlist('position')
             manager = request.POST.get('manager')
 
-            if manager:
+            if manager:    # TEAMLEAD SET
                 verify_manager = MyUser.objects.filter(email=manager).last()
                 if verify_manager:
                     TeamMembers.objects.create(team=article, member=verify_manager,
@@ -664,13 +525,11 @@ def finished_project(request):
                                            member_status='Leader', is_active=True)
 
             print("CREATED TEAM LEADER!")
-            print(assinger)
-            print('ASGHJRHGDFKM<')
-            # member = ''
+
             i = 0
 
             if assinger and position:
-
+                                              # ASSIGNERS AND POSITION SET
                 for user in assinger:
 
                     email = MyUser.objects.filter(email=user).last()
@@ -679,7 +538,6 @@ def finished_project(request):
                         i += 1
 
                         print('CREATED MEMBER!!!')
-            # article.save()
         return redirect(dashboard)
 
     return render(request, 'dashboard.html', context)
